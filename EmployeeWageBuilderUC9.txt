@@ -1,0 +1,52 @@
+public class EmployeeWageBuilderUC9{
+	public static final int FULL_TIME = 1;
+	public static final int PART_TIME = 2;
+	
+	private final String Company;	
+	private final int EMP_RATE_PER_HOUR ;
+	private final int NUM_OF_WORKING_DAYS;		
+	private final int MAX_HOURS_PER_MONTH;
+	private int total_emp_wage;
+	
+	public EmployeeWageBuilderUC9(String company, int eMP_RATE_PER_HOUR, int nUM_OF_WORKING_DAYS, int mAX_HOURS_PER_MONTH) {
+		super();
+		Company = company;
+		EMP_RATE_PER_HOUR = eMP_RATE_PER_HOUR;
+		NUM_OF_WORKING_DAYS = nUM_OF_WORKING_DAYS;
+		MAX_HOURS_PER_MONTH = mAX_HOURS_PER_MONTH;
+	}
+
+	
+		
+	public void computeEmpWage() {
+		int empHrs = 0;
+		int tot_emp_hours =0;
+		int tot_working_days =0;
+		
+		
+	    while(tot_emp_hours<=MAX_HOURS_PER_MONTH && tot_working_days<=NUM_OF_WORKING_DAYS) {
+	    	tot_working_days++;
+	    	int empCheck= (int) Math.floor(Math.random() *10)%3;
+	    	switch (empCheck){
+				case FULL_TIME :
+					empHrs=8;
+					break;
+				case PART_TIME :
+					empHrs = 4;
+					break;
+				default :
+					empHrs = 0;
+					break;
+	    	}
+		    tot_emp_hours+=empHrs;
+		    System.out.println("Day#: "+tot_working_days+" Emp Hr : "+empHrs);
+	    }
+	    total_emp_wage = tot_emp_hours*EMP_RATE_PER_HOUR;
+	}
+
+	public static void main(String args[]){
+        EmployeeWageBuilderUC9 dMart= new EmployeeWageBuilderUC9("dmart",20,2,10);   
+	    dMart.computeEmpWage();
+	    System.out.println(dMart.total_emp_wage);
+	}
+}
