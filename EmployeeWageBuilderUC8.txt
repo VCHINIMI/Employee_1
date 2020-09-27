@@ -1,0 +1,40 @@
+public class EmployeeWage{
+	public static final int FULL_TIME = 1;
+	public static final int PART_TIME = 2;
+		
+
+	private int computeEmpWage(int eMP_RATE_PER_HOUR, int nUM_OF_WORKING_DAYS,int mAX_HOURS_PER_MONTH) {
+		int empHrs = 0;
+		int tot_emp_hours =0;
+		int tot_working_days =0;
+		
+		
+	    while(tot_emp_hours<=mAX_HOURS_PER_MONTH && tot_working_days<=nUM_OF_WORKING_DAYS) {
+	    	tot_working_days++;
+	    	int empCheck= (int) Math.floor(Math.random() *10)%3;
+	    	switch (empCheck){
+				case FULL_TIME :
+					empHrs=8;
+					break;
+				case PART_TIME :
+					empHrs = 4;
+					break;
+				default :
+					empHrs = 0;
+					break;
+	    	}
+		    tot_emp_hours+=empHrs;
+		    System.out.println("Day#: "+tot_working_days+" Emp Hr : "+empHrs);
+	    }
+	    return tot_emp_hours*eMP_RATE_PER_HOUR;
+	}
+
+
+
+	public static void main(String args[]){
+		EmployeeWage e= new EmployeeWage();   
+	    System.out.println("Total Emp Wage for Company DMART: "+ " is " + e.computeEmpWage(20,2,10));
+	    System.out.println("Total Emp Wage for Company Reliance: "+ " is " + e.computeEmpWage(30,3,20));
+	    
+	}
+}
