@@ -1,0 +1,89 @@
+import java.util.ArrayList;
+
+interface CompEmpWage{
+	public void addCompanyEmpWage(String company, int empRatePerHour, int numOfWorkingDays, int maxHoursPerMonth);
+	public void computeEmpWage();
+	public int computeEmpWage(CompanyEmpWage companyEmpWage);
+}
+class CompanyEmpWage {
+	public final String company;
+	public final int empRatePerHour;
+	public final int numOfWorkingDays;
+	public final int maxHoursPerMonth;
+	public int totalEmpWage;
+	
+	
+	public void setTotalEmpWage(int totalEmpWage) {
+		this.totalEmpWage = totalEmpWage;
+	}
+	public CompanyEmpWage(String company, int empRatePerHour, int numOfWorkingDays, int maxHoursPerMonth) {
+		super();
+		this.company = company;
+		this.empRatePerHour = empRatePerHour;
+		this.numOfWorkingDays = numOfWorkingDays;
+		this.maxHoursPerMonth = maxHoursPerMonth;
+	}
+	@Override
+	public String toString() {
+		return "Total Emp Wage for Company: "+company+" is: "+totalEmpWage;
+	}
+}
+
+
+public class EmpWageBuilder implements CompEmpWage {
+	public static final int FULL_TIME = 1;
+	public static final int PART_TIME = 2;
+	
+	private int numOfCompany=0;
+	private ArrayList<CompanyEmpWage> companyEmpWageArray;
+	public EmpWageBuilder() {
+		companyEmpWageArray= new ArrayList<CompanyEmpWage>();
+	}
+	
+	public void addCompanyEmpWage(String company, int empRatePerHour, int numOfWorkingDays, int maxHoursPerMonth) {
+		CompanyEmpWage companyEmpWage = new CompanyEmpWage(company, empRatePerHour, numOfWorkingDays, maxHoursPerMonth);
+		companyEmpWageArray.add(companyEmpWage);
+		numOfCompany++;
+	}
+	
+	public void computeEmpWage() {
+		for(int i=0; i< numOfCompany;i++) {
+			CompanyEmpWage companyEmpWage = companyEmpWageArray.get(i);
+			companyEmpWage.setTotalEmpWage(this.computeEmpWage(companyEmpWage));
+			System.out.println(companyEmpWage);
+		}
+	}
+	public int computeEmpWage(CompanyEmpWage companyEmpWage) {
+		int empHrs = 0;
+		int tot_emp_hours =0;
+		int tot_working_days =0;
+		
+		
+	    while(tot_emp_hours<= companyEmpWage.maxHoursPerMonth && tot_working_days<=companyEmpWage.numOfWorkingDays) {
+	    	tot_working_days++;
+	    	int empCheck= (int) Math.floor(Math.random() *10)%3;
+	    	switch (empCheck){
+				case FULL_TIME :
+					empHrs=8;
+					break;
+				case PART_TIME :
+					empHrs = 4;
+					break;
+				default :
+					empHrs = 0;
+					break;
+	    	}
+		    tot_emp_hours+=empHrs;
+		    System.out.println("Day#: "+tot_working_days+" Emp Hr : "+empHrs+" Daily wage : "+ empHrs*(companyEmpWage.empRatePerHour));
+		    
+	    }
+	    return  tot_emp_hours*companyEmpWage.empRatePerHour;
+	}
+	
+	public static void main(String[] args) {
+		EmpWageBuilder empWageBuilder = new EmpWageBuilder();
+		empWageBuilder.addCompanyEmpWage("DMART", 20,2,10);
+		empWageBuilder.addCompanyEmpWage("Reliance", 10,4,20);
+		empWageBuilder.computeEmpWage();
+	}
+}
